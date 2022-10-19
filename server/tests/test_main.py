@@ -1,3 +1,5 @@
+import pytest
+
 from server.src.main import sum
 import requests
 
@@ -21,17 +23,28 @@ def test_list_files():
     assert r.json() == ['test1', 'test2'], f'expected empty list, but have {r.json()}'
 
 
-def test_upload():
-    filename = 'test_fastapi'
+@pytest.fixture
+def filename():
+    return 'kek'
+
+
+def test_upload(filename):
     path = 'upload'
     body = {'filename': filename, 'data': data}
     r = requests.post(url + path, json=body)
     check_status_code(r)
 
 
-def test_download():
+def test_download(filename):
     path = 'download'
-    params = {'filename': 'filename'}
+    params = {'filename': filename}
     r = requests.get(url + path, params=params)
     check_status_code(r)
-    assert r.json() == 'data', f'expected data = {data}, but have {r.json()}'
+    return r.json()
+
+
+def test_upload_and_download():
+    filename = 'test_fastapi'
+    test_upload(filename)
+    res = test_download(filename)
+    assert res == 'data', f'expected data = {data}, but have {res}'

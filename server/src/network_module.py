@@ -21,5 +21,4 @@ async def list_files():
 @app.post("/upload")
 async def upload(body: File):
     with open(join(folder_with_files, body.filename), 'w') as f:
-        print('ok')
         f.write(body.data)
