@@ -22,3 +22,9 @@ async def list_files():
 async def upload(body: File):
     with open(join(folder_with_files, body.filename), 'w') as f:
         f.write(body.data)
+
+
+@app.get("/download")
+async def download(filename: str):
+    with open(join(folder_with_files, filename), 'r') as f:
+        return f.read()
