@@ -22,8 +22,9 @@ def test_list_files():
 
 
 def test_upload():
+    filename = 'test_fastapi'
     path = 'upload'
-    body = {'filename': data}
+    body = {'filename': filename, 'data': data}
     r = requests.post(url + path, json=body)
     check_status_code(r)
 
