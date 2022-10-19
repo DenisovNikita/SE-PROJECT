@@ -1,2 +1,4 @@
+from server.src.main import sum
+
 def test_main():
-    assert False, "kek"
+    assert sum(2, 2) == 4, "kek"
