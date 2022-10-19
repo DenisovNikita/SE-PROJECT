@@ -6,7 +6,7 @@ def test_main():
     assert sum(2, 2) == 4, "kek"
 
 
-url = 'http://localhost/api/'
+url = 'http://localhost:8000/'
 data = 'data'
 
 
@@ -18,7 +18,7 @@ def test_list_files():
     path = 'list_files'
     r = requests.get(url + path)
     check_status_code(r)
-    assert r.json() == '[]', f'expected empty list, but have {r.json()}'
+    assert r.json() == ['test1', 'test2'], f'expected empty list, but have {r.json()}'
 
 
 def test_upload():
