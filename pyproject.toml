@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "se-project2"
+name = "se-project-2"
 version = "0.1.0"
 description = ""
 authors = ["Nikita Denisov <nikita160412@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "se_project2"}]
+packages = [{include = "server/src/*.py"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
