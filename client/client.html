@@ -29,7 +29,7 @@ def test():
     path = 'list_files'
     r = requests.get(url + path)
     check_status_code(r)
-    assert r.json() == ['test1', 'test2'], f'expected empty list, but have {r.json()}'
+    files = r.json()
 
 
 def remove_class(element, class_name):
@@ -47,17 +47,30 @@ task_template = Element("task-template").select(".task", from_content=True)
 task_list = Element("list-tasks-container")
 new_task_content = Element("new-task-content")
 
+def process_tasks():
+    url = 'http://localhost:8000/'
+    files = []
+
+    path = 'list_files'
+    r = requests.get(url + path)
+    check_status_code(r)
+    files = r.json()
+    print(files)
+    for file_name in files:
+        add_task(file_name)
+
 
 def add_task(*ags, **kws):
     # ignore empty task
     if not new_task_content.element.value:
         return None
 
+
     # create task
     task_id = f"task-{len(tasks)}"
     task = {
         "id": task_id,
-        "content": new_task_content.element.value,
+        "content": ags[0],
         "done": False,
         "created_at": dt.now(),
     }
@@ -124,6 +137,7 @@ def download_event(e):
         download()
 
 new_task_content.element.onkeypress = add_task_event
+
   </py-script>
 
   <main class="max-w-xs mx-auto mt-4">
@@ -133,17 +147,12 @@ new_task_content.element.onkeypress = add_task_event
       <h1 class="text-3xl font-bold text-gray-800 uppercase tracking-tight">App</h1>
     </div>
     <div>
-<!--        <a href="/test/">Click me</a>-->
-      <input id="new-task-content" class="border flex-1 mr-3 border-gray-300 p-2 rounded" type="text">
         <input id="new-task-content" class="border flex-1 border-gray-300 p-2 rounded" type="text">
       <button id="new-task-btn" class="p-2 text-white bg-blue-600 border border-blue-600 rounded" type="submit" pys-onClick="add_task">
         Upload
       </button>
-        <button id="new-task-btn" class="p-2 text-white bg-blue-600 border border-blue-600 rounded" type="submit" pys-onClick="test">
-        list files
-      </button>
-        <button id="new-task-btn" class="p-2 text-white bg-blue-600 border border-blue-1800 rounded" type="submit" pys-onClick="add_task">
-        Download
+        <button id="new-task-btn" class="p-2 text-white bg-blue-600 border border-blue-600 rounded" type="submit" pys-onClick="process_tasks">
+        Show my homeworks
       </button>
     </div>
 
