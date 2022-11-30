@@ -13,6 +13,10 @@
   </head>
 
   <body class="container">
+  <py-env>
+        - requests
+        - asyncio
+  </py-env>
   <py-script>
 
 from datetime import datetime as dt
@@ -129,7 +133,7 @@ new_task_content.element.onkeypress = add_task_event
       <h1 class="text-3xl font-bold text-gray-800 uppercase tracking-tight">App</h1>
     </div>
     <div>
-        <a href="/test/">Click me</a>
+<!--        <a href="/test/">Click me</a>-->
       <input id="new-task-content" class="border flex-1 mr-3 border-gray-300 p-2 rounded" type="text">
         <input id="new-task-content" class="border flex-1 border-gray-300 p-2 rounded" type="text">
       <button id="new-task-btn" class="p-2 text-white bg-blue-600 border border-blue-600 rounded" type="submit" pys-onClick="add_task">
