@@ -49,7 +49,6 @@ new_task_content = Element("new-task-content")
 
 def process_tasks():
     url = 'http://localhost:8000/'
-    files = []
 
     path = 'list_files'
     r = requests.get(url + path)
@@ -65,12 +64,11 @@ def add_task(*ags, **kws):
     if not new_task_content.element.value:
         return None
 
-
     # create task
     task_id = f"task-{len(tasks)}"
     task = {
         "id": task_id,
-        "content": ags[0],
+        "content": ags[0] if len(ags) > 0 else new_task_content.element.value,
         "done": False,
         "created_at": dt.now(),
     }

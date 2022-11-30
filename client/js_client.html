@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+
+<body>
+
+  <p>before</p>
+
+  <script>
+        const endp = 'http://localhost:8000/list_files/'
+        const request = new Request(endp, {
+            method: 'GET',
+        });
+
+        request.json().then((data) => {
+            const str = JSON.stringify(data, null, 2);
+            function output(inp) {
+                document.body.appendChild(document.createElement('pre')).innerHTML = inp;
+            }
+            output(str)
+        });
+
+  </script>
+
+  <p>after</p>
+
+</body>
+
+</html>
