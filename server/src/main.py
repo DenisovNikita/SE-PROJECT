@@ -1,8 +1,24 @@
-def sum(a, b):
+def sum(a: int, b: int) -> int:
+    """
+
+    Args:
+        a (): int
+        b (): int
+
+    Returns:
+        sum of two integers
+
+    """
     return a + b
 
 
-def main():
+def main() -> None:
+    """
+
+    Returns:
+        None
+
+    """
     a = 2
     b = 2
     print(f'sum({a}, {b}) = {sum(a, b)}')
