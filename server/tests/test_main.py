@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from requests import Response
 
@@ -39,7 +41,7 @@ def test_list_files() -> None:
         None.
 
     """
-    path = 'list_files'
+    path: str = 'list_files'
     r: Response = requests.get(url + path)
     check_status_code(r)
     assert r.json() == ['test1', 'test2'], f'expected empty list, but have {r.json()}'
@@ -56,23 +58,47 @@ def filename() -> str:
     return 'kek'
 
 
-def test_upload(filename):
-    path = 'upload'
-    body = {'filename': filename, 'data': data}
-    r = requests.post(url + path, json=body)
+def test_upload(filename: str) -> None:
+    """Test for endpoint `upload`.
+
+    Args:
+        filename (str): Name of file which user want to upload.
+
+    Returns:
+        None.
+
+    """
+    path: str = 'upload'
+    body: dict = {'filename': filename, 'data': data}
+    r: Response = requests.post(url + path, json=body)
     check_status_code(r)
 
 
-def test_download(filename):
-    path = 'download'
-    params = {'filename': filename}
-    r = requests.get(url + path, params=params)
+def test_download(filename: str) -> Any:
+    """Test for endpoint `download`.
+
+    Args:
+        filename (str): Name of file which user want to download.
+
+    Returns:
+        Any: A json of network response.
+
+    """
+    path: str = 'download'
+    params: dict = {'filename': filename}
+    r: Response = requests.get(url + path, params=params)
     check_status_code(r)
     return r.json()
 
 
-def test_upload_and_download():
-    filename = 'test_fastapi'
+def test_upload_and_download() -> None:
+    """Complex test for download same file as was uploaded before.
+
+    Returns:
+        None.
+
+    """
+    filename: str = 'test_fastapi'
     test_upload(filename)
-    res = test_download(filename)
+    res: Any = test_download(filename)
     assert res == 'data', f'expected data = {data}, but have {res}'
