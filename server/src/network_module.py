@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from entities import File
 from os import listdir
 from os.path import isfile, join
-from typing import List
-
+from typing import List, Optional
+import logging
 
 app = FastAPI()
 folder_with_files: str = '../../user_files/'
@@ -11,10 +11,10 @@ folder_with_files: str = '../../user_files/'
 
 @app.get("/")
 async def root() -> dict:
-    """
+    """Endpoint for empty path.
 
     Returns:
-        json with greetings
+        dict: A json with greetings.
 
     """
     return {"message": "Hello World"}
@@ -22,40 +22,48 @@ async def root() -> dict:
 
 @app.get("/list_files/")
 async def list_files() -> List[str]:
-    """
+    """Endpoint for listing files which are enabled to download from server to user.
 
     Returns:
-        list of files which are enabled to download from server to user
+        List[str]: Filenames of appropriate files.
 
     """
     return [f for f in listdir(folder_with_files) if isfile(join(folder_with_files, f))]
 
 
 @app.post("/upload")
-async def upload(body: File) -> None:
-    """
+async def upload(body: File) -> bool:
+    """Endpoint for upload file from user to server.
 
     Args:
-        body (): File which user want to upload to server
+        body (File): File with filename and data which user want to upload to server.
 
     Returns:
-        None
+        bool: Is file have been successfully uploaded.
 
     """
-    with open(join(folder_with_files, body.filename), 'w') as f:
-        f.write(body.data)
+    try:
+        with open(join(folder_with_files, body.filename), 'w') as f:
+            f.write(body.data)
+        return True
+    except:
+        logging.error(f'File with name "{body.filename}" cannot be uploaded.')
+    return False
 
 
 @app.get("/download")
-async def download(filename: str) -> str:
-    """
+async def download(filename: str) -> Optional[str]:
+    """Endpoint for download file to user from server.
 
     Args:
-        filename (): name of file which user want to download
+        filename (str): Name of file which user want to download.
 
     Returns:
-        data of file with name `filename`
+        Optional[str]: Data of file with name `filename` if it exists or None else.
 
     """
-    with open(join(folder_with_files, filename), 'r') as f:
-        return f.read()
+    try:
+        with open(join(folder_with_files, filename), 'r') as f:
+            return f.read()
+    except:
+        logging.error(f'File with name "{filename}" does not exist.')
