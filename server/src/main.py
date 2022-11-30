@@ -1,19 +1,19 @@
 def sum(a: int, b: int) -> int:
-    """
+    """Sum of two integers.
 
     Args:
-        a (): int
-        b (): int
+        a (int): First value.
+        b (int): Second value.
 
     Returns:
-        sum of two integers
+        int: The return value.
 
     """
     return a + b
 
 
 def main() -> None:
-    """
+    """Calls `sum` function and print result.
 
     Returns:
         None
